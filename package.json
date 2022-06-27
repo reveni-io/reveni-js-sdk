@@ -15,9 +15,10 @@
   "scripts": {
     "test": "jest src/",
     "tdd": "jest src/ --watch",
-    "postinstall": "rollup -c --compact -o lib/reveni-js-sdk.js",
-    "build": "rollup -c --compact -o lib/reveni-js-sdk.js",
-    "linter": "prettier --check ./src"
+    "postinstall": "rollup --format iife -c --compact -o lib/reveni-js-sdk.js",
+    "build": "rollup --format iife -c --compact -o lib/reveni-js-sdk.js",
+    "linter": "prettier --check ./src",
+    "start": "lite-server"
   },
   "repository": {
     "type": "git",
@@ -38,6 +39,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "babelrc-rollup": "^3.0.0",
     "jest-environment-jsdom": "^28.1.1",
+    "lite-server": "^2.6.1",
     "prettier": "^2.7.1",
     "rollup": "^2.75.7",
     "rollup-plugin-babel": "^4.4.0"
