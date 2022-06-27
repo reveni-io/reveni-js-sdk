@@ -1,0 +1,25 @@
+import { generateUrl, getIframe } from './helpers'
+
+test('Should throw a error if orderId is null', () => {
+  expect(() => generateUrl('', 'test')).toThrow('Order id cannot be empty')
+})
+
+test('Should throw a error if returnId is null', () => {
+  expect(() => generateUrl('test', '')).toThrow('Return id cannot be empty')
+})
+
+test('Should generate a url with orderId and returnId', () => {
+  expect(generateUrl('orderId', 'returnId')).toBe('https://returns.reveni.io/returns/returnId?order=orderId')
+})
+
+test('Should generate a url with orderId and returnId with token', () => {
+  expect(generateUrl('orderId', 'returnId', 'token')).toBe(
+    'https://returns.reveni.io/returns/returnId?order=orderId&token=token'
+  )
+})
+
+test('Should return a iframe with the url', () => {
+  expect(getIframe('https://google.es')).toBe(
+    '<iframe title="Reveni returns" id="reveni-returns" src="https://google.es"></iframe>'
+  )
+})
