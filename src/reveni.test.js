@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/dom'
+import { screen, waitFor } from '@testing-library/dom'
 import reveni from './reveni'
 
 test('Should throw a error if orderId is null', () => {
@@ -59,4 +59,15 @@ test('Should remove iframe with queryParams', () => {
   expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
   reveni.close('#test')
   expect(screen.queryByTitle('Reveni returns')).not.toBeInTheDocument()
+})
+
+test('Should execute close function when send reveni.close message', () => {
+  document.body.innerHTML = '<div id="test"></div>'
+  document.head.innerHTML =
+    '<script src="reveni-js-sdk.js?orderId=test&returnId=test2&elementSelector=#test&token=tokenTest"></script>'
+  reveni.init()
+
+  expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
+  window.postMessage('reveni.close', '*')
+  waitFor(() => expect(screen.queryByTitle('Reveni returns')).not.toBeInTheDocument())
 })
