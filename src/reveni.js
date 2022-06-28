@@ -1,5 +1,10 @@
 import { generateUrl, getElement, getIframe, getQueryParams, validateInitParams } from './helpers'
 
+const close = elementSelector => {
+  const element = getElement(elementSelector)
+  element.innerHTML = ''
+}
+
 const init = (orderId, returnId, elementSelector, token) => {
   let scripts = document.getElementsByTagName('script')
   let index = scripts.length - 1
@@ -16,11 +21,12 @@ const init = (orderId, returnId, elementSelector, token) => {
   const iframe = getIframe(url)
   const element = getElement(elementSelector)
   element.innerHTML = iframe
-}
 
-const close = elementSelector => {
-  const element = getElement(elementSelector)
-  element.innerHTML = ''
+  window.addEventListener('message', e => {
+    if (e.data === 'reveni.close') {
+      close(elementSelector)
+    }
+  })
 }
 
 export default {

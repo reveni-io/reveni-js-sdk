@@ -17,7 +17,8 @@ export const generateUrl = (orderId, returnId, token) => {
 }
 
 export const getIframe = url => {
-  return `<iframe title="Reveni returns" id="reveni-returns" src="${url}"></iframe>`
+  const styles = 'position: absolute; top: 0; left: 0; height: 100vh; width: 100%; border: none;'
+  return `<iframe style="${styles}" title="Reveni returns" id="reveni-returns" src="${url}"></iframe>`
 }
 
 export const getElement = selector => {
