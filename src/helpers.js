@@ -26,3 +26,16 @@ export const getElement = selector => {
 
   return element
 }
+
+export const getQueryParams = script => {
+  const src = script.src
+  const searchParams = src.split('?')[1]
+
+  const params = new URLSearchParams(searchParams)
+  const orderId = params.get('orderId')
+  const returnId = params.get('returnId')
+  const elementSelector = params.get('elementSelector')
+  const token = params.get('token')
+
+  return { orderId, returnId, elementSelector, token }
+}

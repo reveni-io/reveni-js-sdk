@@ -1,6 +1,16 @@
-import { generateUrl, getElement, getIframe, validateInitParams } from './helpers'
+import { generateUrl, getElement, getIframe, getQueryParams, validateInitParams } from './helpers'
 
 const init = (orderId, returnId, elementSelector, token) => {
+  let scripts = document.getElementsByTagName('script')
+  let index = scripts.length - 1
+  let myScript = scripts[index]
+  const queryParams = getQueryParams(myScript)
+
+  if (!orderId) orderId = queryParams.orderId
+  if (!returnId) returnId = queryParams.returnId
+  if (!elementSelector) elementSelector = queryParams.elementSelector
+  if (!token) token = queryParams.token
+
   validateInitParams(orderId, returnId, elementSelector)
   const url = generateUrl(orderId, returnId, token)
   const iframe = getIframe(url)
