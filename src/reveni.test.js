@@ -21,7 +21,7 @@ test('Should add a iframe inside element', () => {
   document.body.innerHTML = '<div id="test"></div>'
   reveni.init('test', 'test', '#test')
   expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
-  expect(screen.getByTitle('Reveni returns').src).toBe('https://returns.reveni.io/returns/test?order=test')
+  expect(screen.getByTitle('Reveni returns').src).toBe(`${process.env.HOST}/returns/test?order=test`)
 })
 
 test('Should remove iframe', () => {
@@ -44,8 +44,19 @@ test('Should render a error if element not found', () => {
 test('Should render a iframe with the values from queryParams', () => {
   document.head.innerHTML = '<script src="reveni-js-sdk.js?orderId=test&returnId=test2&elementSelector=#test"></script>'
   document.body.innerHTML = '<div id="test"></div>'
+
   reveni.init()
 
   expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
-  expect(screen.getByTitle('Reveni returns').src).toBe('https://returns.reveni.io/returns/test2?order=test')
+  expect(screen.getByTitle('Reveni returns').src).toBe(`${process.env.HOST}/returns/test2?order=test`)
+})
+
+test('Should remove iframe with queryParams', () => {
+  document.body.innerHTML = '<div id="test"></div>'
+  document.head.innerHTML =
+    '<script src="reveni-js-sdk.js?orderId=test&returnId=test2&elementSelector=#test&token=tokenTest"></script>'
+  reveni.init()
+  expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
+  reveni.close('#test')
+  expect(screen.queryByTitle('Reveni returns')).not.toBeInTheDocument()
 })

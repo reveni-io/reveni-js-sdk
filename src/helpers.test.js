@@ -9,12 +9,12 @@ test('Should throw a error if returnId is null', () => {
 })
 
 test('Should generate a url with orderId and returnId', () => {
-  expect(generateUrl('orderId', 'returnId')).toBe('https://returns.reveni.io/returns/returnId?order=orderId')
+  expect(generateUrl('orderId', 'returnId')).toBe(`${process.env.HOST}/returns/returnId?order=orderId`)
 })
 
 test('Should generate a url with orderId and returnId with token', () => {
   expect(generateUrl('orderId', 'returnId', 'token')).toBe(
-    'https://returns.reveni.io/returns/returnId?order=orderId&token=token'
+    `${process.env.HOST}/returns/returnId?order=orderId&token=token`
   )
 })
 
