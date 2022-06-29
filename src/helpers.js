@@ -10,7 +10,7 @@ export const validateInitParams = (orderId, returnId, elementSelector) => {
 
 export const generateUrl = (orderId, returnId, token) => {
   validateParams(orderId, returnId)
-  let url = `${process.env.HOST}/returns/${returnId}?order=${orderId}`
+  let url = `${process.env.HOST}/returns/${returnId}?order=${orderId}&fromIframe=true`
   if (token) url += `&token=${token}`
 
   return url
