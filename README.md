@@ -67,6 +67,12 @@ export default App
 '
 ```
 
+### Try in sandbox enviroment
+
+```js
+reveni.init('test', 'test', 'token', '#div', true)
+```
+
 ## Parameters
 
 | Property        | Description                          | Example                                                       |
@@ -75,3 +81,4 @@ export default App
 | orderId         | Order id                             | a3a7640d671c4cde8adff13560e25f7b                              |
 | token           | Token to authenticate a user         | eyJ0eXAiOiJKV1Q.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwifQ.vWXQ2gwzuM |
 | elementSelector | CSS selector to render reveni iframe | #reveni                                                       |
+| sandbox         | Use sandbox environment              | true or false. By default is false                            |

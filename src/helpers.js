@@ -8,9 +8,10 @@ export const validateInitParams = (orderId, returnId, elementSelector) => {
   if (!elementSelector) throw new Error('Element selector cannot be empty')
 }
 
-export const generateUrl = (orderId, returnId, token) => {
+export const generateUrl = (orderId, returnId, token, sandbox) => {
   validateParams(orderId, returnId)
-  let url = `${process.env.HOST}/returns/${returnId}?order=${orderId}&fromIframe=true`
+  let base = sandbox ? process.env.HOST_SANDBOX : process.env.HOST
+  let url = `${base}/returns/${returnId}?order=${orderId}&fromIframe=true`
   if (token) url += `&token=${token}`
 
   return url
