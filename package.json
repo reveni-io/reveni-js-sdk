@@ -1,8 +1,8 @@
 {
-  "name": "@reveni/js-sdk",
-  "version": "1.0.0",
+  "name": "reveni-js-sdk",
+  "version": "1.0.1",
   "description": "reveni JS SDK",
-  "main": "lib/index.js",
+  "main": "lib/reveni-js-sdk.js",
   "jest": {
     "testEnvironment": "jsdom",
     "setupFilesAfterEnv": [
@@ -27,7 +27,7 @@
     "url": "git+https://github.com/reveni-io/reveni-js-sdk.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "reveni.io",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/reveni-io/reveni-js-sdk/issues"
