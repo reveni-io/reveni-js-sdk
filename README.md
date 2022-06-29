@@ -12,7 +12,7 @@ yarn start
 yarn tdd
 ```
 
-## Run build
+## Run build
 
 ```sh
 yarn build

@@ -1,8 +1,8 @@
 {
-  "name": "reveni-js-sdk",
+  "name": "@reveni/js-sdk",
   "version": "1.0.0",
-  "description": "",
-  "main": "src/index.js",
+  "description": "reveni JS SDK",
+  "main": "lib/index.js",
   "jest": {
     "testEnvironment": "jsdom",
     "setupFilesAfterEnv": [
@@ -18,7 +18,8 @@
     "postinstall": "rollup --format iife -c --compact -o lib/reveni-js-sdk.js",
     "build": "rollup --format iife -c --compact -o lib/reveni-js-sdk.js",
     "linter": "prettier --check ./src",
-    "start": "lite-server"
+    "start": "lite-server",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
