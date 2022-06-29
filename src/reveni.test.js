@@ -21,7 +21,7 @@ test('Should add a iframe inside element', () => {
   document.body.innerHTML = '<div id="test"></div>'
   reveni.init('test', 'test', '#test')
   expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
-  expect(screen.getByTitle('Reveni returns').src).toBe(`${process.env.HOST}/returns/test?order=test`)
+  expect(screen.getByTitle('Reveni returns').src).toBe(`${process.env.HOST}/returns/test?order=test&fromIframe=true`)
 })
 
 test('Should remove iframe', () => {
@@ -48,7 +48,7 @@ test('Should render a iframe with the values from queryParams', () => {
   reveni.init()
 
   expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
-  expect(screen.getByTitle('Reveni returns').src).toBe(`${process.env.HOST}/returns/test2?order=test`)
+  expect(screen.getByTitle('Reveni returns').src).toBe(`${process.env.HOST}/returns/test2?order=test&fromIframe=true`)
 })
 
 test('Should remove iframe with queryParams', () => {
