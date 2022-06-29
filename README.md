@@ -45,7 +45,7 @@ export default App
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="https://cdn.reveni.io/public/js-sdk/reveni-js-sdk.js?orderId=test&returnId=test&token=token&elementSelector=#div"></script>
+    <script src="https://cdn.reveni.io/public/js-sdk/reveni-js-sdk.js"></script>
     <script>
       function instantRefund() {
         reveni.init('test', 'test', 'token', '#div')
