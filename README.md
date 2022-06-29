@@ -1,5 +1,7 @@
 # reveni-js-sdk
 
+![tests and linter](https://github.com/reveni-io/reveni-js-sdk/actions/workflows/main.yml/badge.svg)
+
 ## Setup
 
 You can use a script tag to load reveni-js-sdk or use npm package.
