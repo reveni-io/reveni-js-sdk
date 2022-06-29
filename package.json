@@ -19,7 +19,8 @@
     "build": "rollup --format iife -c --compact -o lib/reveni-js-sdk.js",
     "linter": "prettier --check ./src",
     "start": "lite-server",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -41,6 +42,7 @@
     "babelrc-rollup": "^3.0.0",
     "core-js": "^3.21.1",
     "dotenv": "^16.0.1",
+    "husky": "^8.0.1",
     "jest-environment-jsdom": "^28.1.1",
     "lite-server": "^2.6.1",
     "prettier": "^2.7.1",
