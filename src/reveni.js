@@ -6,10 +6,9 @@ const close = elementSelector => {
 }
 
 const init = (orderId, returnId, elementSelector, token, sandbox) => {
-  let scripts = document.getElementsByTagName('script')
-  let index = scripts.length - 1
-  let myScript = scripts[index]
-  const queryParams = getQueryParams(myScript)
+  const scriptTags = document.querySelectorAll('script')
+  const currentScript = Array.from(scriptTags).find(script => script.src.includes(process.env.SDK_OUTPUT_NAME))
+  const queryParams = getQueryParams(currentScript)
 
   if (!orderId) orderId = queryParams.orderId
   if (!returnId) returnId = queryParams.returnId

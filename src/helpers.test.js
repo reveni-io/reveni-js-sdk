@@ -36,3 +36,15 @@ test('Should return orderId, returnId and elementSelector from script src', () =
     token: 'tokenTest',
   })
 })
+
+test('Should return sandbox url if sandbox parameter is true', () => {
+  expect(generateUrl('orderId', 'returnId', 'token', true)).toBe(
+    `${process.env.HOST_SANDBOX}/returns/returnId?order=orderId&fromIframe=true&token=token`
+  )
+})
+
+test('Should return default url if sandbox parameter is false', () => {
+  expect(generateUrl('orderId', 'returnId', 'token', false)).toBe(
+    `${process.env.HOST}/returns/returnId?order=orderId&fromIframe=true&token=token`
+  )
+})
