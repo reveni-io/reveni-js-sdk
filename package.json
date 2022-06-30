@@ -6,7 +6,7 @@
   "jest": {
     "testEnvironment": "jsdom",
     "setupFilesAfterEnv": [
-      "<rootDir>/src/setupTests.js"
+      "<rootDir>/setupTests.js"
     ],
     "modulePathIgnorePatterns": [
       "<rootDir>/lib/"
@@ -21,7 +21,8 @@
     "linter": "prettier --check ./src",
     "start": "lite-server",
     "prepublish": "npm run build && npm run transpile",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "coverage": "jest src/ --coverage src/"
   },
   "repository": {
     "type": "git",
