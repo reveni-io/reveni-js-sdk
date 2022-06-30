@@ -1,6 +1,6 @@
 {
   "name": "reveni-js-sdk",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "reveni JS SDK",
   "main": "lib/index.js",
   "jest": {
