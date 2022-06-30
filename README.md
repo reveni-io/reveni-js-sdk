@@ -35,7 +35,7 @@ export default App
 ### Using script tag
 
 ```html
-<script src="https://cdn.reveni.io/public/js-sdk/reveni-js-sdk.js"></script>
+<script src="https://cdn.reveni.io/js/latest/reveni-js-sdk.js"></script>
 ```
 
 ```html
@@ -46,7 +46,7 @@ export default App
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="https://cdn.reveni.io/public/js-sdk/reveni-js-sdk.js"></script>
+    <script src="https://cdn.reveni.io/js/latest/reveni-js-sdk.js"></script>
     <script>
       function instantRefund() {
         reveni.init('test', 'test', 'token', '#div')
@@ -64,7 +64,7 @@ export default App
 
 ```html
 '
-<script src="https://cdn.reveni.io/public/js-sdk/reveni-js-sdk.js?orderId=test&returnId=test2&elementSelector=#div&token=tokenTest"></script>
+<script src="https://cdn.reveni.io/js/latest/reveni-js-sdk.js?orderId=test&returnId=test2&elementSelector=#div&token=tokenTest"></script>
 '
 ```
 
