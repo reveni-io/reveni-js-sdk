@@ -13,7 +13,7 @@ jobs:
         with:
           access_key: ${{ secrets.DO_ACCESS_KEY}}
           secret_key: ${{ secrets.DO_SECRET_KEY }}
-          space_name: reveni-prod
+          space_name: prod-reveni-spaces
           space_region: ${{ secrets.DO_SPACE_REGION }}
           source: lib/reveni-js-sdk.js
           out_dir: js
