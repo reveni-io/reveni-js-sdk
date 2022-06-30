@@ -1,5 +1,6 @@
 # reveni-js-sdk
 
+[![npm version](https://badge.fury.io/js/reveni-js-sdk.svg)](https://badge.fury.io/js/reveni-js-sdk)
 ![tests and linter](https://github.com/reveni-io/reveni-js-sdk/actions/workflows/main.yml/badge.svg)
 
 ## Setup
