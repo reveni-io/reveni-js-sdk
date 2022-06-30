@@ -25,7 +25,7 @@ export const getIframe = url => {
 export const getElement = selector => {
   const element = document.querySelector(selector)
   if (!element) throw new Error(`Element with selector: ${selector} not found.`)
-
+  element.style.zIndex = '2147483647'
   return element
 }
 

@@ -1,4 +1,4 @@
-import { generateUrl, getIframe, getQueryParams } from './helpers'
+import { generateUrl, getElement, getIframe, getQueryParams } from './helpers'
 
 test('Should throw a error if orderId is null', () => {
   expect(() => generateUrl('', 'test')).toThrow('Order id cannot be empty')
@@ -47,4 +47,9 @@ test('Should return default url if sandbox parameter is false', () => {
   expect(generateUrl('orderId', 'returnId', 'token', false)).toBe(
     `${process.env.HOST}/returns/returnId?order=orderId&fromIframe=true&token=token`
   )
+})
+
+test('Should return a element with z-index 2147483647', () => {
+  document.body.innerHTML = '<div id="test"></div>'
+  expect(getElement('#test').style.zIndex).toBe('2147483647')
 })
