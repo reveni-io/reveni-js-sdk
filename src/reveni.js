@@ -1,8 +1,9 @@
-import { generateUrl, getElement, getIframe, getQueryParams, validateInitParams } from './helpers'
+import { generateUrl, getElement, getIframe, getQueryParams, parseMessage, validateInitParams } from './helpers'
 
-const close = elementSelector => {
+const close = (elementSelector, redirectUrl) => {
   const element = getElement(elementSelector)
   element.innerHTML = ''
+  if (redirectUrl) window.location = redirectUrl
 }
 
 const init = (orderId, returnId, elementSelector, token, sandbox, loadedByTag = true) => {
@@ -24,8 +25,9 @@ const init = (orderId, returnId, elementSelector, token, sandbox, loadedByTag = 
   element.innerHTML = iframe
 
   window.addEventListener('message', e => {
-    if (e.data === 'reveni.close') {
-      close(elementSelector)
+    const data = parseMessage(e.data)
+    if (data?.type === 'reveni.close') {
+      close(elementSelector, data?.redirectUrl)
     }
   })
 }

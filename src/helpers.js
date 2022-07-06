@@ -45,3 +45,11 @@ export const getQueryParams = script => {
 
   throw new Error('reveni-js-sdk not found. Should named reveni-js-sdk.')
 }
+
+export const parseMessage = data => {
+  try {
+    return JSON.parse(data)
+  } catch (error) {
+    return null
+  }
+}
