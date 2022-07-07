@@ -20,7 +20,7 @@ test('Should generate a url with orderId and returnId with token', () => {
 
 test('Should return a iframe with the url', () => {
   expect(getIframe('https://google.es')).toBe(
-    '<iframe style="position: absolute; top: 0; left: 0; height: 100vh; width: 100%; border: none;" title="Reveni returns" id="reveni-returns" src="https://google.es"></iframe>'
+    '<iframe style="position: absolute; top: 0; left: 0; height: 100vh; width: 100%; border: none; z-index: 2147483647" title="Reveni returns" id="reveni-returns" src="https://google.es"></iframe>'
   )
 })
 
