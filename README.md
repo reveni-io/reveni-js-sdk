@@ -49,7 +49,7 @@ export default App
     <script src="https://cdn.reveni.io/js/latest/reveni-js-sdk.js"></script>
     <script>
       function instantRefund() {
-        reveni.init('test', 'test', 'token', '#div')
+        reveni.init('orderId', 'returnId', 'token', '#div')
       }
     </script>
   </head>
@@ -71,7 +71,7 @@ export default App
 ### Try in sandbox enviroment
 
 ```js
-reveni.init('test', 'test', 'token', '#div', true)
+reveni.init('orderId', 'returnId', 'token', '#div', true)
 ```
 
 ## Parameters
