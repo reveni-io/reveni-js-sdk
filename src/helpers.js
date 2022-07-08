@@ -18,7 +18,7 @@ export const generateUrl = (orderId, returnId, token, sandbox) => {
 }
 
 export const getIframe = url => {
-  const styles = 'position: absolute; top: 0; left: 0; height: 100vh; width: 100%; border: none;'
+  const styles = 'position: absolute; top: 0; left: 0; height: 100vh; width: 100%; border: none; z-index: 2147483647'
   return `<iframe style="${styles}" title="Reveni returns" id="reveni-returns" src="${url}"></iframe>`
 }
 
