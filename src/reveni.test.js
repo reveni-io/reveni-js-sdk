@@ -1,6 +1,13 @@
 import { screen, waitFor } from '@testing-library/dom'
 import reveni from './reveni'
 
+beforeEach(() => {
+  const location = new URL('https://www.example.com')
+  location.assign = jest.fn()
+  delete window.location
+  window.location = location
+})
+
 test('Should throw a error if orderId is null', () => {
   document.head.innerHTML = `<script src="${process.env.SDK_OUTPUT_NAME}"></script>`
   expect(() => reveni.init('', 'test')).toThrow('Order id cannot be empty')
@@ -58,18 +65,57 @@ test('Should remove iframe with queryParams', () => {
   expect(screen.queryByTitle('Reveni returns')).not.toBeInTheDocument()
 })
 
-test('Should execute close function when send reveni.close message', () => {
+test('Should execute close function when send reveni.close message', async () => {
   document.body.innerHTML = '<div id="test"></div>'
   document.head.innerHTML = `<script src="${process.env.SDK_OUTPUT_NAME}?orderId=test&returnId=test2&elementSelector=#test&token=tokenTest"></script>`
   reveni.init()
 
   expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
-  window.postMessage('reveni.close', '*')
-  waitFor(() => expect(screen.queryByTitle('Reveni returns')).not.toBeInTheDocument())
+  window.postMessage(JSON.stringify({ type: 'reveni.close' }), '*', '*')
+  await waitFor(() => expect(screen.queryByTitle('Reveni returns')).not.toBeInTheDocument())
 })
 
 test('Should execute close function when send reveni.close message', () => {
   document.body.innerHTML = '<div id="test"></div>'
   document.head.innerHTML = `<script src="fake-test.js?orderId=test&returnId=test2&elementSelector=#test&token=tokenTest"></script>`
   expect(() => reveni.init()).toThrow('reveni-js-sdk not found. Should named reveni-js-sdk.')
+})
+
+test('Should execute close function and redirect to url', async () => {
+  document.body.innerHTML = '<div id="test"></div>'
+  document.head.innerHTML = `<script src="${process.env.SDK_OUTPUT_NAME}?orderId=test&returnId=test2&elementSelector=#test&token=tokenTest"></script>`
+  reveni.init()
+
+  expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
+  window.postMessage(JSON.stringify({ type: 'reveni.close', redirectUrl: 'https://google.es' }), '*', '*')
+  await waitFor(() => expect(screen.queryByTitle('Reveni returns')).not.toBeInTheDocument())
+  expect(window.location).toBe('https://google.es')
+})
+
+test('Should execute close function and execute onSuccess callback', async () => {
+  document.body.innerHTML = '<div id="test"></div>'
+  document.head.innerHTML = `
+  <script src="${process.env.SDK_OUTPUT_NAME}?orderId=test&returnId=test2&elementSelector=#test&token=tokenTest"></script>
+  `
+  const successFn = jest.fn()
+  reveni.init(undefined, undefined, undefined, undefined, undefined, undefined, successFn)
+
+  expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
+  window.postMessage(JSON.stringify({ type: 'reveni.close', status: 'success' }), '*', '*')
+  await waitFor(() => expect(screen.queryByTitle('Reveni returns')).not.toBeInTheDocument())
+  expect(successFn).toHaveBeenCalled()
+})
+
+test('Should execute close function and execute onReject callback', async () => {
+  document.body.innerHTML = '<div id="test"></div>'
+  document.head.innerHTML = `
+  <script src="${process.env.SDK_OUTPUT_NAME}?orderId=test&returnId=test2&elementSelector=#test&token=tokenTest"></script>
+  `
+  const onReject = jest.fn()
+  reveni.init(undefined, undefined, undefined, undefined, undefined, undefined, undefined, onReject)
+
+  expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
+  window.postMessage(JSON.stringify({ type: 'reveni.close', status: 'reject' }), '*', '*')
+  await waitFor(() => expect(screen.queryByTitle('Reveni returns')).not.toBeInTheDocument())
+  expect(onReject).toHaveBeenCalled()
 })

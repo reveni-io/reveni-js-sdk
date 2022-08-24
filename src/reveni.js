@@ -1,12 +1,14 @@
 import { generateUrl, getElement, getIframe, getQueryParams, parseMessage, validateInitParams } from './helpers'
 
-const close = (elementSelector, redirectUrl) => {
+const close = (elementSelector, redirectUrl, returnStatus, onSuccess, onReject) => {
   const element = getElement(elementSelector)
   element.innerHTML = ''
-  if (redirectUrl) window.location = redirectUrl
+  if (returnStatus === 'success' && onSuccess) onSuccess()
+  if (returnStatus === 'reject' && onReject) onReject()
+  if (redirectUrl && !onSuccess && !onReject) window.location = redirectUrl
 }
 
-const init = (orderId, returnId, elementSelector, token, sandbox, loadedByTag = true) => {
+const init = (orderId, returnId, elementSelector, token, sandbox, loadedByTag = true, onSuccess, onReject) => {
   if (loadedByTag) {
     const scriptTags = document.querySelectorAll('script')
     const currentScript = Array.from(scriptTags).find(script => script.src.includes(process.env.SDK_OUTPUT_NAME))
@@ -27,7 +29,7 @@ const init = (orderId, returnId, elementSelector, token, sandbox, loadedByTag = 
   window.addEventListener('message', e => {
     const data = parseMessage(e.data)
     if (data?.type === 'reveni.close') {
-      close(elementSelector, data?.redirectUrl)
+      close(elementSelector, data?.redirectUrl, data?.status, onSuccess, onReject)
     }
   })
 }
