@@ -38,3 +38,42 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: yarn install
       - run: yarn run linter
+
+  coverage:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.14.0]
+
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          cache: 'yarn'
+          node-version: ${{ matrix.node-version }}
+
+      - name: install dependencies
+        env:
+          REVENI_UI_TOKEN: ${{ secrets.REVENI_UI_TOKEN }}
+        run: yarn install --immutable
+
+      - name: generate coverage
+        run: yarn coverage
+
+      - name: report coverage
+        uses: zgosalvez/github-actions-report-lcov@v1
+        with:
+          coverage-files: coverage/lcov.info
+          minimum-coverage: 90
+          artifact-name: sdk-coverage-report
+          github-token: ${{ secrets.GITHUB_TOKEN }}
