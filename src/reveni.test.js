@@ -115,7 +115,7 @@ test('Should execute close function and execute onReject callback', async () => 
   reveni.init(undefined, undefined, undefined, undefined, undefined, undefined, undefined, onReject)
 
   expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
-  window.postMessage(JSON.stringify({ type: 'reveni.close', status: 'reject' }), '*', '*')
+  window.postMessage(JSON.stringify({ type: 'reveni.close', status: 'rejected' }), '*', '*')
   await waitFor(() => expect(screen.queryByTitle('Reveni returns')).not.toBeInTheDocument())
   expect(onReject).toHaveBeenCalled()
 })
