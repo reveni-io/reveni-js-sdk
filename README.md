@@ -76,46 +76,23 @@ reveni.init('orderId', 'returnId', 'token', '#div', true)
 
 ### Use callback functions:
 
-#### Success callback:
-
 ```js
-reveni.init('cf6401afba5a4eaa99871e2a94a81f51', '20e7e16eb3f04e05aa87aa030ccb8470', null, '#div', true, () =>
-  alert('success!')
-)
-```
-
-#### Reject callback:
-
-```js
-reveni.init('cf6401afba5a4eaa99871e2a94a81f51', '20e7e16eb3f04e05aa87aa030ccb8470', null, '#div', true, null, () =>
-  alert('reject!')
-)
-```
-
-#### On finish callback:
-
-```js
-reveni.init(
-  'cf6401afba5a4eaa99871e2a94a81f51',
-  '20e7e16eb3f04e05aa87aa030ccb8470',
-  null,
-  '#div',
-  true,
-  null,
-  null,
-  status => alert(status)
-)
+function instantRefund() {
+  reveni.init('cf6401afba5a4eaa99871e2a94a81f51', '20e7e16eb3f04e05aa87aa030ccb8470', null, '#div', true, {
+    onFinish: status => alert(status),
+    onSuccess: () => alert('success'),
+    onReject: () => alert('rejected'),
+  })
+}
 ```
 
 ## Parameters
 
-| Property          | Description                                                                | Required | Example                                                       |
-| ----------------- | -------------------------------------------------------------------------- | -------- | ------------------------------------------------------------- |
-| orderId           | Order id                                                                   | true     | a3a7640d671c4cde8adff13560e25f7b                              |
-| returnId          | Return id                                                                  | true     | a3a7640d671c4cde8adff13560e25f7b                              |
-| token             | Token to authenticate a user                                               | false    | eyJ0eXAiOiJKV1Q.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwifQ.vWXQ2gwzuM |
-| elementSelector   | CSS selector to render reveni iframe                                       | true     | #reveni                                                       |
-| sandbox           | Use sandbox environment                                                    | false    | true or false. By default is false                            |
-| success callback  | Invoked when return status is success                                      | false    | () => alert('success!')                                       |
-| reject callback   | Invoked when return status is rejected                                     | false    | () => alert('rejected!')                                      |
-| onFinish callback | Invoked when return is finished. Receive "success" or "rejected" as param. | false    | (status) => alert(status)                                     |
+| Property         | Description                                                       | Required | Example                                                               |
+| ---------------- | ----------------------------------------------------------------- | -------- | --------------------------------------------------------------------- |
+| orderId          | Order id                                                          | true     | a3a7640d671c4cde8adff13560e25f7b                                      |
+| returnId         | Return id                                                         | true     | a3a7640d671c4cde8adff13560e25f7b                                      |
+| token            | Token to authenticate a user                                      | false    | eyJ0eXAiOiJKV1Q.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwifQ.vWXQ2gwzuM         |
+| elementSelector  | CSS selector to render reveni iframe                              | true     | #reveni                                                               |
+| sandbox          | Use sandbox environment                                           | false    | true or false. By default is false                                    |
+| callbacks object | Callbacks to execute when return is success, rejected or finished | false    | { onFinish: (status) => {}, onSuccess: () => {}, onReject: () => {} } |
