@@ -98,7 +98,7 @@ test('Should execute close function and execute onSuccess callback', async () =>
   <script src="${process.env.SDK_OUTPUT_NAME}?orderId=test&returnId=test2&elementSelector=#test&token=tokenTest"></script>
   `
   const successFn = jest.fn()
-  reveni.init(undefined, undefined, undefined, undefined, undefined, undefined, successFn)
+  reveni.init(undefined, undefined, undefined, undefined, undefined, undefined, { onSuccess: successFn })
 
   expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
   window.postMessage(JSON.stringify({ type: 'reveni.close', status: 'success' }), '*', '*')
@@ -112,10 +112,24 @@ test('Should execute close function and execute onReject callback', async () => 
   <script src="${process.env.SDK_OUTPUT_NAME}?orderId=test&returnId=test2&elementSelector=#test&token=tokenTest"></script>
   `
   const onReject = jest.fn()
-  reveni.init(undefined, undefined, undefined, undefined, undefined, undefined, undefined, onReject)
+  reveni.init(undefined, undefined, undefined, undefined, undefined, undefined, { onReject: onReject })
 
   expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
   window.postMessage(JSON.stringify({ type: 'reveni.close', status: 'rejected' }), '*', '*')
   await waitFor(() => expect(screen.queryByTitle('Reveni returns')).not.toBeInTheDocument())
   expect(onReject).toHaveBeenCalled()
+})
+
+test('Should execute close function and execute onFinish callback', async () => {
+  document.body.innerHTML = '<div id="test"></div>'
+  document.head.innerHTML = `
+  <script src="${process.env.SDK_OUTPUT_NAME}?orderId=test&returnId=test2&elementSelector=#test&token=tokenTest"></script>
+  `
+  const onFinish = jest.fn()
+  reveni.init(undefined, undefined, undefined, undefined, undefined, undefined, { onFinish })
+
+  expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
+  window.postMessage(JSON.stringify({ type: 'reveni.close', status: 'rejected' }), '*', '*')
+  await waitFor(() => expect(screen.queryByTitle('Reveni returns')).not.toBeInTheDocument())
+  expect(onFinish).toHaveBeenCalled()
 })

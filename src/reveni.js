@@ -1,25 +1,16 @@
 import { generateUrl, getElement, getIframe, getQueryParams, parseMessage, validateInitParams } from './helpers'
 
-const close = (elementSelector, redirectUrl, returnStatus, onSuccess, onReject, onFinish) => {
+const close = (elementSelector, redirectUrl, returnStatus, callbacks) => {
   const element = getElement(elementSelector)
   element.innerHTML = ''
-  if (onFinish) onFinish(returnStatus)
-  if (returnStatus === 'success' && onSuccess) onSuccess()
-  if (returnStatus === 'rejected' && onReject) onReject()
-  if (redirectUrl && !onSuccess && !onReject && !onFinish) window.location = redirectUrl
+  if (callbacks?.onFinish) callbacks?.onFinish(returnStatus)
+  if (returnStatus === 'success' && callbacks?.onSuccess) callbacks.onSuccess()
+  if (returnStatus === 'rejected' && callbacks?.onReject) callbacks?.onReject()
+  if (redirectUrl && !callbacks?.onSuccess && !callbacks?.onReject && !callbacks?.onFinish)
+    window.location = redirectUrl
 }
 
-const init = (
-  orderId,
-  returnId,
-  elementSelector,
-  token,
-  sandbox,
-  loadedByTag = true,
-  onSuccess,
-  onReject,
-  onFinish
-) => {
+const init = (orderId, returnId, elementSelector, token, sandbox, loadedByTag = true, callbacks) => {
   if (loadedByTag) {
     const scriptTags = document.querySelectorAll('script')
     const currentScript = Array.from(scriptTags).find(script => script.src.includes(process.env.SDK_OUTPUT_NAME))
@@ -40,7 +31,7 @@ const init = (
   window.addEventListener('message', e => {
     const data = parseMessage(e.data)
     if (data?.type === 'reveni.close') {
-      close(elementSelector, data?.redirectUrl, data?.status, onSuccess, onReject, onFinish)
+      close(elementSelector, data?.redirectUrl, data?.status, callbacks)
     }
   })
 }
