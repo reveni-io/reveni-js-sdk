@@ -9,9 +9,7 @@
     <script>
       function instantRefund() {
         reveni.init('cf6401afba5a4eaa99871e2a94a81f51', '20e7e16eb3f04e05aa87aa030ccb8470', null, '#div', true, {
-          onFinish: status => alert(status),
-          onSuccess: () => alert('success'),
-          onReject: () => alert('rejected'),
+          onDismiss: () => alert('dismissed!'),
         })
       }
     </script>

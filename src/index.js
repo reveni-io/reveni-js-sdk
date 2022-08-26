@@ -7,7 +7,7 @@ window.reveni = {
     token,
     elementSelector,
     sandbox = false,
-    callbacks = { onSuccess: null, onReject: null, onFinish: null }
+    callbacks = { onSuccess: null, onReject: null, onFinish: null, onDismiss: null }
   ) => reveni.init(orderId, returnId, elementSelector, token, sandbox, true, callbacks),
   close: elementSelector => reveni.close(elementSelector),
 }
@@ -19,7 +19,7 @@ export default {
     token,
     elementSelector,
     sandbox = false,
-    callbacks = { onSuccess: null, onReject: null, onFinish: null }
+    callbacks = { onSuccess: null, onReject: null, onFinish: null, onDismiss: null }
   ) => reveni.init(orderId, returnId, elementSelector, token, sandbox, false, callbacks),
   close: elementSelector => reveni.close(elementSelector),
 }
