@@ -133,3 +133,17 @@ test('Should execute close function and execute onFinish callback', async () => 
   await waitFor(() => expect(screen.queryByTitle('Reveni returns')).not.toBeInTheDocument())
   expect(onFinish).toHaveBeenCalled()
 })
+
+test('Should execute close function and execute onDismiss callback', async () => {
+  document.body.innerHTML = '<div id="test"></div>'
+  document.head.innerHTML = `
+  <script src="${process.env.SDK_OUTPUT_NAME}?orderId=test&returnId=test2&elementSelector=#test&token=tokenTest"></script>
+  `
+  const onDismiss = jest.fn()
+  reveni.init(undefined, undefined, undefined, undefined, undefined, undefined, { onDismiss })
+
+  expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
+  window.postMessage(JSON.stringify({ type: 'reveni.close', status: 'dismiss' }), '*', '*')
+  await waitFor(() => expect(screen.queryByTitle('Reveni returns')).not.toBeInTheDocument())
+  expect(onDismiss).toHaveBeenCalled()
+})

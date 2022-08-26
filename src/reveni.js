@@ -4,6 +4,7 @@ const close = (elementSelector, redirectUrl, returnStatus, callbacks) => {
   const element = getElement(elementSelector)
   element.innerHTML = ''
   if (callbacks?.onFinish) callbacks?.onFinish(returnStatus)
+  if (returnStatus === 'dismiss' && callbacks?.onDismiss) callbacks.onDismiss()
   if (returnStatus === 'success' && callbacks?.onSuccess) callbacks.onSuccess()
   if (returnStatus === 'rejected' && callbacks?.onReject) callbacks?.onReject()
   if (redirectUrl && !callbacks?.onSuccess && !callbacks?.onReject && !callbacks?.onFinish)

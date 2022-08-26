@@ -82,17 +82,18 @@ function instantRefund() {
     onFinish: status => alert(status),
     onSuccess: () => alert('success'),
     onReject: () => alert('rejected'),
+    onDismiss: () => alert('dismiss'),
   })
 }
 ```
 
 ## Parameters
 
-| Property         | Description                                                       | Required | Example                                                               |
-| ---------------- | ----------------------------------------------------------------- | -------- | --------------------------------------------------------------------- |
-| orderId          | Order id                                                          | true     | a3a7640d671c4cde8adff13560e25f7b                                      |
-| returnId         | Return id                                                         | true     | a3a7640d671c4cde8adff13560e25f7b                                      |
-| token            | Token to authenticate a user                                      | false    | eyJ0eXAiOiJKV1Q.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwifQ.vWXQ2gwzuM         |
-| elementSelector  | CSS selector to render reveni iframe                              | true     | #reveni                                                               |
-| sandbox          | Use sandbox environment                                           | false    | true or false. By default is false                                    |
-| callbacks object | Callbacks to execute when return is success, rejected or finished | false    | { onFinish: (status) => {}, onSuccess: () => {}, onReject: () => {} } |
+| Property         | Description                                                       | Required | Example                                                                                    |
+| ---------------- | ----------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------ |
+| orderId          | Order id                                                          | true     | a3a7640d671c4cde8adff13560e25f7b                                                           |
+| returnId         | Return id                                                         | true     | a3a7640d671c4cde8adff13560e25f7b                                                           |
+| token            | Token to authenticate a user                                      | false    | eyJ0eXAiOiJKV1Q.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwifQ.vWXQ2gwzuM                              |
+| elementSelector  | CSS selector to render reveni iframe                              | true     | #reveni                                                                                    |
+| sandbox          | Use sandbox environment                                           | false    | true or false. By default is false                                                         |
+| callbacks object | Callbacks to execute when return is success, rejected or finished | false    | { onFinish: (status) => {}, onSuccess: () => {}, onReject: () => {}, onDismiss: () => {} } |
