@@ -53,3 +53,17 @@ export const parseMessage = data => {
     return null
   }
 }
+
+export const executeCallbackOrRedirect = (status, redirectUrl, callbacks) => {
+  const callBacksMappingsByStatus = {
+    dismiss: callbacks?.onDismiss,
+    success: callbacks?.onSuccess,
+    rejected: callbacks?.onReject,
+  }
+
+  if (callBacksMappingsByStatus?.[status]) {
+    callBacksMappingsByStatus[status]()
+  } else {
+    window.location = redirectUrl
+  }
+}

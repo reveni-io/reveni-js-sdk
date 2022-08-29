@@ -1,14 +1,20 @@
-import { generateUrl, getElement, getIframe, getQueryParams, parseMessage, validateInitParams } from './helpers'
+import {
+  executeCallbackOrRedirect,
+  generateUrl,
+  getElement,
+  getIframe,
+  getQueryParams,
+  parseMessage,
+  validateInitParams,
+} from './helpers'
 
 const close = (elementSelector, redirectUrl, returnStatus, callbacks) => {
   const element = getElement(elementSelector)
   element.innerHTML = ''
+
   if (callbacks?.onFinish) callbacks?.onFinish(returnStatus)
-  if (returnStatus === 'dismiss' && callbacks?.onDismiss) callbacks.onDismiss()
-  if (returnStatus === 'success' && callbacks?.onSuccess) callbacks.onSuccess()
-  if (returnStatus === 'rejected' && callbacks?.onReject) callbacks?.onReject()
-  if (redirectUrl && !callbacks?.onSuccess && !callbacks?.onReject && !callbacks?.onFinish)
-    window.location = redirectUrl
+
+  executeCallbackOrRedirect(returnStatus, redirectUrl, callbacks)
 }
 
 const init = (orderId, returnId, elementSelector, token, sandbox, loadedByTag = true, callbacks) => {
