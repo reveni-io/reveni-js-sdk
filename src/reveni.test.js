@@ -87,7 +87,11 @@ test('Should execute close function and redirect to url', async () => {
   reveni.init()
 
   expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
-  window.postMessage(JSON.stringify({ type: 'reveni.close', redirectUrl: 'https://google.es' }), '*', '*')
+  window.postMessage(
+    JSON.stringify({ type: 'reveni.close', status: 'success', redirectUrl: 'https://google.es' }),
+    '*',
+    '*'
+  )
   await waitFor(() => expect(screen.queryByTitle('Reveni returns')).not.toBeInTheDocument())
   expect(window.location).toBe('https://google.es')
 })
@@ -146,4 +150,22 @@ test('Should execute close function and execute onDismiss callback', async () =>
   window.postMessage(JSON.stringify({ type: 'reveni.close', status: 'dismiss' }), '*', '*')
   await waitFor(() => expect(screen.queryByTitle('Reveni returns')).not.toBeInTheDocument())
   expect(onDismiss).toHaveBeenCalled()
+})
+
+test('Should execute close function and redirect to onDismiss url', async () => {
+  document.body.innerHTML = '<div id="test"></div>'
+  document.head.innerHTML = `
+  <script src="${process.env.SDK_OUTPUT_NAME}?orderId=test&returnId=test2&elementSelector=#test&token=tokenTest"></script>
+  `
+  const onDismiss = jest.fn()
+  reveni.init(undefined, undefined, undefined, undefined, undefined, undefined)
+
+  expect(screen.getByTitle('Reveni returns')).toBeInTheDocument()
+  window.postMessage(
+    JSON.stringify({ type: 'reveni.close', redirectUrl: 'https://dismissurl.com', status: 'dismiss' }),
+    '*',
+    '*'
+  )
+  await waitFor(() => expect(screen.queryByTitle('Reveni returns')).not.toBeInTheDocument())
+  expect(window.location).toBe('https://dismissurl.com')
 })
