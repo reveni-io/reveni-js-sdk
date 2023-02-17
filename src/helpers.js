@@ -63,7 +63,7 @@ export const executeCallbackOrRedirect = (status, redirectUrl, callbacks) => {
 
   if (callBacksMappingsByStatus?.[status]) {
     callBacksMappingsByStatus[status]()
-  } else if (redirectUrl) {
+  } else if (redirectUrl && !callbacks?.onFinish) {
     window.location = redirectUrl
   }
 }
