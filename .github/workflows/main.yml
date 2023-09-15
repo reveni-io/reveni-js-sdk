@@ -6,74 +6,89 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  REACT_APP_HOST: http://localhost:8000
+  REACT_APP_BACKEND_HOST: http://localhost:8000
+
 jobs:
-  tests:
+  install_dependencies:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.14.0]
-
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: yarn install
-      - run: yarn test
-
-  linter:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.14.0]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: yarn install
-      - run: yarn run linter
-
-  coverage:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.14.0]
-
-    permissions:
-      checks: write
-      pull-requests: write
-      contents: write
-
-    steps:
-      - uses: actions/checkout@v2
+      - name: checkout
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+      - name: Cache node modules
+        uses: actions/cache@v3
         with:
-          cache: 'yarn'
-          node-version: ${{ matrix.node-version }}
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-      - name: install dependencies
-        env:
-          REVENI_UI_TOKEN: ${{ secrets.REVENI_UI_TOKEN }}
-        run: yarn install --immutable
+      - name: Use Bun.sh 1.0.0
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.0.0
 
-      - name: generate coverage
-        run: yarn coverage
+      - name: install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: bun install
+
+  linter:
+    needs: install_dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Use Bun.sh 1.0.0
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.0.0
+
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - run: bun run linter
+
+  tests:
+    needs: install_dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Use Bun.sh 1.0.0
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.0.0
+
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - run: bun run coverage
 
       - name: report coverage
         uses: zgosalvez/github-actions-report-lcov@v1
         with:
           coverage-files: coverage/lcov.info
           minimum-coverage: 90
-          artifact-name: sdk-coverage-report
           github-token: ${{ secrets.GITHUB_TOKEN }}
