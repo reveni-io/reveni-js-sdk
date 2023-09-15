@@ -22,7 +22,8 @@
     "start": "lite-server",
     "prepublish": "npm run build && npm run transpile",
     "prepare": "husky install",
-    "coverage": "jest src/ --coverage src/"
+    "coverage": "jest src/ --coverage src/",
+    "test:ci": "CI=true jest src --silent"
   },
   "repository": {
     "type": "git",
