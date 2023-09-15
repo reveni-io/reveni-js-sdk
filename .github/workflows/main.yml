@@ -84,7 +84,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: bun run test
+      - run: bun run coverage
 
       - name: report coverage
         uses: zgosalvez/github-actions-report-lcov@v1
